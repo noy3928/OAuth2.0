@@ -15,10 +15,11 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User signup(String username, String password) {
+    public User signup(String username, String password, String email) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
+        user.setEmail(email);
         return userRepository.save(user);
     }
 

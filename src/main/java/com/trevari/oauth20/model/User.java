@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "users") // 테이블 이름을 "users"로 변경
 @Getter
 @Setter
 public class User {

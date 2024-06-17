@@ -1,6 +1,7 @@
 package com.trevari.oauth20.controller;
 
 import com.trevari.oauth20.dto.UserSignInRequest;
+import com.trevari.oauth20.security.jwt.JwtUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,10 @@ public class SignInController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
+
     @PostMapping("/signin")
     public ResponseEntity<?> signInUser(@RequestBody UserSignInRequest request) {
         try {
@@ -23,7 +28,9 @@ public class SignInController {
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
 
-            return ResponseEntity.ok("Sign in successful");
+            String jwt = jwtUtils.generateJwtToken(authentication);
+
+            return ResponseEntity.ok(jwt);
 
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Invalid credentials");

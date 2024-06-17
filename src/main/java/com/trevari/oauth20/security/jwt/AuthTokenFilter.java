@@ -28,21 +28,26 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        String path = request.getRequestURI();
+        System.out.println("AuthTokenFilter: Request URI: " + path);
+        if ("/api/signup".equals(path) || "/api/signin".equals(path)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         try {
             String jwt = parseJwt(request);
+            System.out.println("AuthTokenFilter: JWT parsed: " + jwt);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
-
+                System.out.println("AuthTokenFilter: JWT valid, username: " + username);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            // 로그를 추가하거나 예외를 처리할 수 있습니다.
+            System.err.println("AuthTokenFilter: Exception: " + e.getMessage());
         }
-
         filterChain.doFilter(request, response);
     }
 

@@ -15,7 +15,8 @@ public class SignUpController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserSignUpRequest request) {
-        userService.signup(request.getUsername(), request.getPassword());
+        System.out.println("SignUpController: registerUser called with username: " + request.getUsername());
+        userService.signup(request.getUsername(), request.getPassword(), request.getEmail());
         return ResponseEntity.ok("User sign up successfully");
     }
 }
