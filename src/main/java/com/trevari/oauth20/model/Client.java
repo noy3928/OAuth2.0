@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -21,4 +24,7 @@ public class Client {
 
     @Column(nullable = false)
     private String redirectUri;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Consent> consents = new HashSet<>();
 }

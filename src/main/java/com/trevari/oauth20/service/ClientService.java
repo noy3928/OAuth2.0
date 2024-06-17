@@ -21,4 +21,8 @@ public class ClientService {
         client.setRedirectUri(redirectUri);
         return clientRepository.save(client);
     }
+
+    public Client getClientById(Long clientId) {
+        return clientRepository.findById(clientId).orElse(null);
+    }
 }
