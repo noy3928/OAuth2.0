@@ -20,6 +20,9 @@ public class Client {
     private String clientId;
 
     @Column(nullable = false)
+    private String clientName;
+
+    @Column(nullable = false)
     private String clientSecret;
 
     @Column(nullable = false)

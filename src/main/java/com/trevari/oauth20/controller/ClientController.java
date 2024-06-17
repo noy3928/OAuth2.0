@@ -14,8 +14,8 @@ public class ClientController {
     private ClientService clientService;
 
     @PostMapping("/clients")
-    public ResponseEntity<?> registerClient(@RequestParam String redirectUri) {
-        Client client = clientService.registerClient(redirectUri);
+    public ResponseEntity<?> registerClient(@RequestParam String redirectUri, @RequestParam String clientName) {
+        Client client = clientService.registerClient(redirectUri, clientName);
         return ResponseEntity.ok(client);
     }
 }

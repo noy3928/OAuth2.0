@@ -14,11 +14,12 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-    public Client registerClient(String redirectUri) {
+    public Client registerClient(String redirectUri, String clientName) {
         Client client = new Client();
         client.setClientId(UUID.randomUUID().toString());
-        client.setClientSecret(BCrypt.hashpw(UUID.randomUUID().toString(), BCrypt.gensalt()));
+        client.setClientSecret(UUID.randomUUID().toString());
         client.setRedirectUri(redirectUri);
+        client.setClientName(clientName);
         return clientRepository.save(client);
     }
 
