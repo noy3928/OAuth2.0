@@ -1,5 +1,6 @@
 package com.trevari.oauth20.controller;
 
+import com.trevari.oauth20.dto.ClientRequest;
 import com.trevari.oauth20.model.Client;
 import com.trevari.oauth20.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,8 @@ public class ClientController {
     private ClientService clientService;
 
     @PostMapping("/clients")
-    public ResponseEntity<?> registerClient(@RequestParam String redirectUri, @RequestParam String clientName) {
-        Client client = clientService.registerClient(redirectUri, clientName);
+    public ResponseEntity<?> registerClient(@RequestBody ClientRequest clientRequest) {
+        Client client = clientService.registerClient(clientRequest.getRedirectUri(), clientRequest.getClientName());
         return ResponseEntity.ok(client);
     }
 }

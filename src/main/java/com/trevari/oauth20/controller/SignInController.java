@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 public class SignInController {
@@ -30,7 +33,10 @@ public class SignInController {
 
             String jwt = jwtUtils.generateJwtToken(authentication);
 
-            return ResponseEntity.ok(jwt);
+            Map<String, String> response = new HashMap<>();
+            response.put("token", jwt);
+
+            return ResponseEntity.ok(response);
 
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Invalid credentials");
