@@ -34,20 +34,21 @@ public class JwtUtils {
                 .getSubject();
     }
 
+
     public boolean validateJwtToken(String authToken) {
         try {
-            Jwts.parserBuilder().setSigningKey(jwtSecret).build().parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
-            // 로그를 추가하거나 예외를 처리할 수 있습니다.
+            System.err.println("Invalid JWT signature: " + e.getMessage());
         } catch (MalformedJwtException e) {
-            // 로그를 추가하거나 예외를 처리할 수 있습니다.
+            System.err.println("Invalid JWT token: " + e.getMessage());
         } catch (ExpiredJwtException e) {
-            // 로그를 추가하거나 예외를 처리할 수 있습니다.
+            System.err.println("JWT token is expired: " + e.getMessage());
         } catch (UnsupportedJwtException e) {
-            // 로그를 추가하거나 예외를 처리할 수 있습니다.
+            System.err.println("JWT token is unsupported: " + e.getMessage());
         } catch (IllegalArgumentException e) {
-            // 로그를 추가하거나 예외를 처리할 수 있습니다.
+            System.err.println("JWT claims string is empty: " + e.getMessage());
         }
         return false;
     }
